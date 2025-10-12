@@ -1,0 +1,21 @@
+# Requisitos para Python 3.11/3.12 (recomendado)
+# Para Python 3.14, algunas dependencias pueden no estar disponibles
+opencv-python==4.8.1.78
+numpy==1.24.3
+pandas==2.0.3
+matplotlib==3.7.2
+PyQt6==6.5.0
+psycopg2-binary==2.9.7
+
+# Framework web
+flask==3.0.0
+gunicorn==21.2.0  # Servidor WSGI para producción (opcional, pero buena práctica)
+Pillow==11.3.0    # Procesamiento de imágenes para la interfaz web
+
+# Alternativas para Python 3.14 (cuando estén disponibles)
+# opencv-python
+# numpy
+# pandas
+# matplotlib
+# PyQt6
+# psycopg2-binary
