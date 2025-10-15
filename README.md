@@ -35,11 +35,12 @@ Desarrollar un sistema de visión artificial basado en Python y OpenCV, con el f
 | Bendezú delgado Elber Wilfredo         | Miembro Frontend, Diseño de clases                                | Desarrollo Frontend, interfaz de usuario                            |
 | Urviola Zapata Manuel Eduardo | Base de Datos, Product Owner                                     | Gestión y diseño de la base de datos, Pruebas y Retroalimentación                                |
 ## *📜 Licencia*  
-Este proyecto es desarrollado como parte del curso *Curso Innovación y Transformación Digital (Sección 12883)* de la *Universidad Tecnológica del Perú*.  
+Este proyecto es desarrollado como parte del curso *Innovación y Transformación Digital (Sección 12883)* de la *Universidad Tecnológica del Perú*.  
 
 ---
 
 ## *📞 Contacto*  
 ¿Preguntas o sugerencias? Contactar al líder del proyecto:  
 ✉ *Urviola Zapata Manuel Eduardo* - [U22209191@utp.edu.pe]
+
 
