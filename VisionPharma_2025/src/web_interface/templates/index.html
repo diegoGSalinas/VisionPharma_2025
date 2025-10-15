@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VisionPharma 2025 - Control de Línea</title>
+    <style>
+        /* Estilos CSS */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; background: white; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .header { background: linear-gradient(135deg, #007bff 0%, #00b4d8 100%); color: white; padding: 20px; text-align: center; border-top-left-radius: 10px; border-top-right-radius: 10px; }
+        .header h1 { font-size: 2em; margin-bottom: 5px; }
+        .header p { font-size: 1.2em; opacity: 0.9; }
+        .status-bar { display: flex; justify-content: space-around; background: #e9ecef; padding: 15px 0; border-bottom: 1px solid #dee2e6; }
+        .status-item { text-align: center; font-size: 1em; }
+        .status-label { color: #495057; font-weight: 500; }
+        .status-value { font-weight: bold; color: #007bff; }
+        #status-connection { color: #dc3545; }
+        .main-content { padding: 30px; }
+        .controls { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+        .btn { padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; transition: background-color 0.3s; }
+        .btn-process { background-color: #28a745; color: white; }
+        .btn-process:hover { background-color: #218838; }
+        .btn-info { background-color: #007bff; color: white; }
+        .btn-info:hover { background-color: #0056b3; }
+        .btn-warning { background-color: #ffc107; color: #343a40; }
+        .image-container { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .image-box { border: 1px solid #ced4da; border-radius: 8px; padding: 20px; text-align: center; background: #f8f9fa; }
+        .image-box h3 { color: #495057; margin-bottom: 15px; font-size: 1.2em; }
+        .image-placeholder { height: 300px; background: #e9ecef; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #6c757d; border: 2px dashed #adb5bd; }
+        .image-result { max-width: 100%; max-height: 300px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .loading { display: none; margin-top: 15px; text-align: center; }
+        .error-box { color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+        .success-box { color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 10px; border-radius: 5px; margin-bottom: 15px; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 0.9em; }
+        .data-table th, .data-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        .data-table th { background-color: #495057; color: white; }
+        .defect { color: red; font-weight: bold; }
+        .aprobado { color: green; font-weight: bold; }
+        /* ⬇️ CLASES DE VISIBILIDAD PARA JINJA ⬇️ */
+        .hidden { display: none !important; }
+        .visible { display: block !important; }
+        .visible-flex { display: flex !important; }
+        
+        @media (max-width: 768px) {
+            .image-container { grid-template-columns: 1fr; }
+            .controls { flex-direction: column; }
+            .status-item { display: block; margin-bottom: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="{{ url_for('static', filename='placeholder_logo.png') }}" alt="Logo" style="height: 50px; margin-bottom: 10px;">
+            <h1>VisionPharma 2025</h1>
+            <p>Sistema de Inspección Farmacéutica con Visión Artificial</p>
+        </div>
+        
+        <div class="status-bar">
+            <div class="status-item">
+                <span class="status-label">Estado:</span> <span class="status-value" id="status-connection">Conectando...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Versión:</span> <span class="status-value" id="version">1.0.1</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Modo:</span> <span class="status-value" id="mode-display">Mock</span>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="error-box {% if error %}visible{% else %}hidden{% endif %}" id="global-error">{{ error }}</div>
+            <div class="error-box {% if debug_info %}visible{% else %}hidden{% endif %}" id="debug-info">
+                <strong>Debug request:</strong>
+                <pre style="white-space: pre-wrap; font-size: 0.9em;">{{ debug_info | tojson(indent=2) }}</pre>
+            </div>
+            <div class="success-box {% if step_image_urls and not error %}visible{% else %}hidden{% endif %}" id="global-success">
+                Inspección completada exitosamente.
+            </div>
+
+            <form id="inspection-form" class="controls" enctype="multipart/form-data" method="POST" action="/">
+                
+                <input type="file" name="file" id="image-file-input" accept=".jpg, .jpeg, .png" required 
+                       style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; flex-grow: 1;">
+                
+                <button type="submit" class="btn btn-process">
+                    Procesar Imagen
+                </button>
+                
+                <button type="button" class="btn btn-info" onclick="getStatus()">
+                    Actualizar Estado
+                </button>
+                
+                <button type="button" class="btn btn-warning" id="mode-toggle-btn" onclick="toggleMode()">
+                    Cambiar Modo
+                </button>
+            </form>
+            
+            <div class="loading" id="loading-spinner">Procesando...</div>
+
+            <h2 style="margin-top: 30px;">Pipeline de Visión Artificial (Paso a Paso)</h2>
+
+            <div class="image-container">
+                
+                <div class="image-box">
+                    <h3>Imagen Original</h3>
+                    <div class="image-placeholder {% if step_image_urls and step_image_urls.original %}hidden{% else %}visible-flex{% endif %}" 
+                         id="original-placeholder">
+                        Seleccione archivo y presione Procesar
+                    </div>
+                    <img class="image-result {% if step_image_urls and step_image_urls.original %}visible{% else %}hidden{% endif %}" 
+                         id="original-image" 
+                         src="{% if step_image_urls and step_image_urls.original %}{{ step_image_urls.original }}{% endif %}">
+                </div>
+                
+                <div class="image-box">
+                    <h3>Resultado Final</h3>
+                    <div class="image-placeholder {% if step_image_urls and step_image_urls.final_contours %}hidden{% else %}visible-flex{% endif %}"
+                         id="processed-placeholder">
+                        Resultado del análisis VPA-02
+                    </div>
+                <img class="image-result {% if step_image_urls and step_image_urls.final_contours %}visible{% else %}hidden{% endif %}" 
+                    id="processed-image" 
+                    src="{% if step_image_urls and step_image_urls.final_contours %}{{ step_image_urls.final_contours }}{% endif %}" 
+                    alt="Resultado procesado">
+                </div>
+            </div>
+
+            <h2 style="margin-top: 30px; color: #007bff;">Detalle de Clasificación</h2>
+            <div id="results-table-container" style="margin-top: 15px;">
+                {% if results_data %}
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Contorno</th>
+                            <th>Área (px)</th>
+                            <th>Circularidad</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for result in results_data %}
+                        <tr>
+                            <td>{{ result.id }}</td>
+                            <td>{{ "%.2f" | format(result.area) }}</td>
+                            <td>{{ "%.4f" | format(result.circularity) }}</td>
+                            <td class="{% if result.status != 'Aprobado' %}defect{% else %}aprobado{% endif %}">{{ result.status }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                    <p>La tabla de resultados aparecerá después de la inspección.</p>
+                {% endif %}
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let CURRENT_MODE_IS_CAMERA = false; 
+
+        document.addEventListener('DOMContentLoaded', getStatus);
+
+        // --- Funciones de Utilidad ---
+        function showMessage(type, message) {
+            const errorBox = document.getElementById('global-error');
+            const successBox = document.getElementById('global-success');
+            // reset
+            errorBox.classList.add('hidden');
+            errorBox.classList.remove('visible');
+            successBox.classList.add('hidden');
+            successBox.classList.remove('visible');
+
+            if (type === 'success') {
+                successBox.textContent = message;
+                successBox.classList.remove('hidden');
+                successBox.classList.add('visible');
+                setTimeout(() => { successBox.classList.remove('visible'); successBox.classList.add('hidden'); }, 5000);
+            } else if (type === 'error') {
+                errorBox.textContent = message;
+                errorBox.classList.remove('hidden');
+                errorBox.classList.add('visible');
+                setTimeout(() => { errorBox.classList.remove('visible'); errorBox.classList.add('hidden'); }, 5000);
+            }
+        }
+        
+        function showLoading(show) {
+            const spinner = document.getElementById('loading-spinner');
+            if (show) {
+                spinner.classList.remove('hidden');
+                spinner.classList.add('visible');
+            } else {
+                spinner.classList.remove('visible');
+                spinner.classList.add('hidden');
+            }
+            document.querySelector('.btn-process').disabled = show;
+            document.getElementById('image-file-input').disabled = show;
+        }
+
+        // --- Lógica de la Aplicación (Comunicación API) ---
+
+        // Función para obtener el estado del servidor
+        async function getStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+
+                document.getElementById('status-connection').textContent = data.status;
+                document.getElementById('status-connection').style.color = data.status === 'Ready' ? '#28a745' : '#dc3545';
+                document.getElementById('mode-display').textContent = data.mode === 'camera' ? 'Cámara Real' : 'Mock';
+                CURRENT_MODE_IS_CAMERA = data.mode === 'camera';
+                document.getElementById('version').textContent = data.version || 'N/A';
+
+                document.getElementById('mode-toggle-btn').textContent = 
+                    CURRENT_MODE_IS_CAMERA ? 'Cambiar a Mock' : 'Cambiar a Cámara';
+
+                showMessage('success', 'Sistema conectado y listo.');
+            } catch (error) {
+                document.getElementById('status-connection').textContent = 'Desconectado';
+                document.getElementById('status-connection').style.color = '#dc3545';
+                showMessage('error', 'Error al conectar con el servidor: ' + error.message);
+            }
+        }
+        
+        // Función para cambiar el modo de Mock a Cámara
+        async function toggleMode() {
+            const newMode = !CURRENT_MODE_IS_CAMERA;
+            showLoading(true);
+            try {
+                const response = await fetch('/api/config/mode', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 'use_camera': newMode })
+                });
+
+                if (response.ok) {
+                    CURRENT_MODE_IS_CAMERA = newMode;
+                    getStatus(); // Actualiza el dashboard
+                    showMessage('success', `Modo cambiado a ${newMode ? 'CÁMARA REAL' : 'MOCK/Archivos'}.`);
+                } else {
+                    const data = await response.json();
+                    showMessage('error', 'Fallo al cambiar modo: ' + (data.error || 'Server error'));
+                }
+            } catch (error) {
+                showMessage('error', 'Error de red al intentar cambiar modo.');
+            } finally {
+                showLoading(false);
+            }
+        }
+        
+        // --- Función de Subida y Procesamiento (POST) ---
+        // Manejador del evento 'submit' para el formulario
+        document.getElementById('inspection-form').addEventListener('submit', function(e) {
+            // Verifica que un archivo haya sido seleccionado antes de enviar el POST
+            const fileInput = document.getElementById('image-file-input');
+            if (fileInput.files.length === 0) {
+                e.preventDefault(); // Detiene el envío si no hay archivo
+                showMessage('error', 'Debe seleccionar un archivo de imagen para procesar.');
+                return;
+            }
+            
+            // Muestra el spinner y deshabilita el botón mientras Flask procesa
+            showLoading(true);
+            // El formulario se envía de forma normal (por defecto) y Flask recarga la página.
+        });
+
+    </script>
+</body>
+</html>
