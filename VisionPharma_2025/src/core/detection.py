@@ -1,70 +1,49 @@
 import cv2
 import numpy as np
 
-# Parámetros (Ajustados para tu imagen de pastillas rojas)
-BLISTER_AREA_MIN = 8000     
-BLISTER_AREA_MAX = 40000    
-CIRCULARITY_THRESHOLD = 0.50 
-
-
 def detect_and_classify_blister(thresholded_image: np.ndarray, frame_to_draw: np.ndarray) -> tuple[np.ndarray, list]:
+    # Asegurarnos de que la imagen esté en escala de grises
+    if len(thresholded_image.shape) == 3:
+        gray = cv2.cvtColor(thresholded_image, cv2.COLOR_BGR2GRAY)
+    else:
+        gray = thresholded_image
     
-    # Dependemos ahora del suavizado en 'processing.py' y un filtro estricto de área.
+    # 1. Aplicar umbral simple ya que la imagen esta procesada
+    _, thresh = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
     
-    # 1. Detección de Contornos (PB-03)
+    # 2. Encontrar contornos
+    contours, _ = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    print(f"\n[DEBUG] Total de contornos encontrados: {len(contours)}")
     
-    # Apertura para eliminar pequeños contornos ruidosos
-    kernel = np.ones((5,5),np.uint8) 
-    processed_thresh = cv2.morphologyEx(thresholded_image, cv2.MORPH_OPEN, kernel)
-    
-    # cv2.RETR_EXTERNAL: Recupera solo los contornos externos limpios.
-    contours, _ = cv2.findContours(processed_thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-
     inspection_results = []
     output_image = frame_to_draw.copy()
-
-    # 2. Análisis Geométrico y Clasificación (PB-04, PB-05)
-    for i, contour in enumerate(contours):
+    
+    # 3. Procesar cada contorno
+    for idx, contour in enumerate(contours, 1):
+        # Calcular área
         area = cv2.contourArea(contour)
-        is_defective = False
-        defect_type = "Aprobado"
         
-        # --- FILTRADO CRÍTICO: SOLO CONSIDERAR OBJETOS GRANDES (PASTILLAS) ---
-        if area < BLISTER_AREA_MIN:
-             if area > 3000:
-                # Objeto pequeño pero detectable: Posible Cavidad Vacía o borde sucio
-                is_defective = True
-                defect_type = "Cavidad Vacía"
-             else:
-                continue # Ignorar ruido
+        # Si el área es muy pequeña, ignorar
+        if area < 50:  # Ajustar según sea necesario
+            continue
+            
+        # Dibujar contorno en verde
+        cv2.drawContours(output_image, [contour], -1, (0, 255, 0), 2)
         
-        elif area > BLISTER_AREA_MAX:
-             continue # Ignorar el objeto si es demasiado grande
+        # Calcular centroide para el texto
+        M = cv2.moments(contour)
+        if M["m00"] != 0:
+            cX = int(M["m10"] / M["m00"])
+            cY = int(M["m01"] / M["m00"])
+            cv2.putText(output_image, str(idx), (cX-10, cY), 
+                       cv2.FONT_HERSHEY_SIMPLEX, 0.7, (255, 255, 255), 2)
         
-        # Clasificación para contornos dentro del rango de área.
-        perimeter = cv2.arcLength(contour, closed=True)
-        circularity = (4 * np.pi * area) / (perimeter ** 2) if perimeter > 0 else 0
-
-        # CLASIFICACIÓN DE PASTILLA DEFORMADA
-        if circularity < CIRCULARITY_THRESHOLD:
-            is_defective = True
-            defect_type = "Pastilla Deformada"
-        
-        # 3. Marcado Visual (PB-06)
-        if is_defective:
-            color = (0, 0, 255) # Rojo BGR
-            thickness = 3
-        else:
-            color = (0, 255, 0) # Verde BGR
-            thickness = 3
-        
-        cv2.drawContours(output_image, [contour], -1, color, thickness)
-        
+        # Agregar a resultados
         inspection_results.append({
-            'id': i,
-            'area': area,
-            'circularity': circularity,
-            'status': defect_type
+            'id': idx,
+            'area': round(float(area), 2),
+            'status': 'Aprobado'
         })
     
+    print(f"[DEBUG] Contornos válidos: {len(inspection_results)}")
     return output_image, inspection_results

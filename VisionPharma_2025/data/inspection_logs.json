@@ -1,1 +1,434 @@
-[]
+[
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 309,
+        "area_px": 10011.5,
+        "circularity": 0.38543297833254186,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 318,
+        "area_px": 3672.0,
+        "circularity": 0.2839272258541245,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 357,
+        "area_px": 3545.5,
+        "circularity": 0.13136582519273762,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 364,
+        "area_px": 9406.5,
+        "circularity": 0.16475703081023435,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 400,
+        "area_px": 4531.5,
+        "circularity": 0.15881323905933148,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 447,
+        "area_px": 4690.0,
+        "circularity": 0.24624855526289036,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 856,
+        "area_px": 16812.5,
+        "circularity": 0.05795744296931039,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 1580,
+        "area_px": 9402.5,
+        "circularity": 0.0396819324073542,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 1665,
+        "area_px": 4065.5,
+        "circularity": 0.09800333265203477,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 1878,
+        "area_px": 9001.0,
+        "circularity": 0.0813148930492069,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e3379807-263e-4431-84f1-3be235cd2fbf",
+        "timestamp": "2025-10-14T09:43:37.884282",
+        "contour_id": 2064,
+        "area_px": 20294.0,
+        "circularity": 0.06481618729566267,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 155,
+        "area_px": 11138.5,
+        "circularity": 0.14663036368414817,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 388,
+        "area_px": 11225.5,
+        "circularity": 0.049242744563497615,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 746,
+        "area_px": 3809.5,
+        "circularity": 0.09673090137777575,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 905,
+        "area_px": 12115.5,
+        "circularity": 0.15942626145487276,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 1412,
+        "area_px": 3361.0,
+        "circularity": 0.6631494591306408,
+        "status": "DEFECTO",
+        "defect_type": "Cavidad Vac\u00eda"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 1434,
+        "area_px": 33432.5,
+        "circularity": 0.1536721162228545,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 1508,
+        "area_px": 37671.5,
+        "circularity": 0.207604480576733,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 1579,
+        "area_px": 22532.5,
+        "circularity": 0.044109797267540905,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 1604,
+        "area_px": 10040.0,
+        "circularity": 0.04897001729236142,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 1742,
+        "area_px": 6375.0,
+        "circularity": 0.08281217276307541,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 2342,
+        "area_px": 6095.0,
+        "circularity": 0.05163514463930901,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 2356,
+        "area_px": 4011.5,
+        "circularity": 0.11819775083646646,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 2365,
+        "area_px": 3390.5,
+        "circularity": 0.6069248085629075,
+        "status": "DEFECTO",
+        "defect_type": "Cavidad Vac\u00eda"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 2387,
+        "area_px": 3500.5,
+        "circularity": 0.4044703805888685,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 2394,
+        "area_px": 15384.0,
+        "circularity": 0.0370049079707507,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "e1aee4ca-d536-4995-8a17-6368f0d659d9",
+        "timestamp": "2025-10-14T09:43:46.116045",
+        "contour_id": 2424,
+        "area_px": 15809.0,
+        "circularity": 0.05139174574476783,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 559,
+        "area_px": 6001.0,
+        "circularity": 0.25955225567187834,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 1143,
+        "area_px": 3215.5,
+        "circularity": 0.127425610846622,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 1705,
+        "area_px": 5165.5,
+        "circularity": 0.0676047292190546,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 1757,
+        "area_px": 4720.0,
+        "circularity": 0.174872366413617,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 1782,
+        "area_px": 3719.5,
+        "circularity": 0.15334655934366956,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 2463,
+        "area_px": 9124.0,
+        "circularity": 0.08159042319348504,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 2949,
+        "area_px": 18823.0,
+        "circularity": 0.037672870291533406,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "dc130f22-9d0e-479b-aac0-5cdb50698b8f",
+        "timestamp": "2025-10-14T09:43:55.544915",
+        "contour_id": 3228,
+        "area_px": 13285.0,
+        "circularity": 0.033270457660056076,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 28,
+        "area_px": 13966.0,
+        "circularity": 0.3040157128344333,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 32,
+        "area_px": 5173.5,
+        "circularity": 0.154715087598377,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 70,
+        "area_px": 9744.5,
+        "circularity": 0.1591789781259462,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 71,
+        "area_px": 5825.0,
+        "circularity": 0.39579506429539696,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 121,
+        "area_px": 4330.5,
+        "circularity": 0.08392874506787969,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 662,
+        "area_px": 3307.0,
+        "circularity": 0.2994807866992152,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 680,
+        "area_px": 11262.0,
+        "circularity": 0.152087431886621,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 745,
+        "area_px": 4907.0,
+        "circularity": 0.04482582796925617,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 1262,
+        "area_px": 3906.5,
+        "circularity": 0.049762276113194816,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 1306,
+        "area_px": 12570.0,
+        "circularity": 0.044176319502346434,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 1947,
+        "area_px": 12485.5,
+        "circularity": 0.08429317682945094,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 1951,
+        "area_px": 7817.5,
+        "circularity": 0.09974820017719749,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    },
+    {
+        "batch_id": "2f36b087-b830-48be-826f-a840f18450a1",
+        "timestamp": "2025-10-14T09:44:34.454878",
+        "contour_id": 1952,
+        "area_px": 7981.5,
+        "circularity": 0.22200508015952483,
+        "status": "DEFECTO",
+        "defect_type": "Pastilla Deformada"
+    }
+]

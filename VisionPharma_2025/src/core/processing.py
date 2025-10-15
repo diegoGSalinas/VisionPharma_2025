@@ -24,36 +24,79 @@ RANGO_BLANCO_MAX = np.array([180, 50, 255]) # Baja Saturación (0-50) y Alto Val
 
 def preprocess_image(frame: np.ndarray, blur_kernel_size: tuple = (5, 5)) -> np.ndarray:
     """
-    Implementa la segmentación usando HSV y devuelve una máscara binaria.
+    Preprocesamiento mejorado para detección de pastillas.
+    Devuelve una máscara binaria optimizada para detección de contornos.
     """
-    if frame is None:
-        return None
-
-    # 1. Conversión a espacio de color HSV
-    hsv_image = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
-    
-    # 2. Creación de Máscaras de Color (Segmentación por Tono/Saturación)
-    
-    # Máscaras de colores vivos (Rojo/Naranja/Amarillo)
-    mask_rojo = cv2.inRange(hsv_image, RANGO_ROJO_MIN, RANGO_ROJO_MAX)
-    mask_naranja = cv2.inRange(hsv_image, RANGO_NARANJA_MIN, RANGO_NARANJA_MAX)
-    mask_amarillo = cv2.inRange(hsv_image, RANGO_AMARILLO_MIN, RANGO_AMARILLO_MAX)
-    
-    # Máscara para blancos (baja saturación, alta luminosidad)
-    mask_blanco = cv2.inRange(hsv_image, RANGO_BLANCO_MIN, RANGO_BLANCO_MAX)
-    
-    # 3. Fusionar todas las máscaras con OR (lógico)
-    # Esto aísla todas las píldoras de colores/brillos específicos.
-    combined_mask = cv2.bitwise_or(mask_rojo, cv2.bitwise_or(mask_naranja, cv2.bitwise_or(mask_amarillo, mask_blanco)))
-
-    # 4. Operaciones Morfológicas para limpiar la máscara (eliminar ruido y unir partes)
-    kernel = np.ones((3,3),np.uint8) # Kernel pequeño para limpieza fina
-    
-    # Cierre: Dilatación seguida de Erosión (cierra pequeños agujeros en las píldoras)
-    cleaned_mask = cv2.morphologyEx(combined_mask, cv2.MORPH_CLOSE, kernel)
-    
-    # Apertura: Erosión seguida de Dilatación (elimina puntos pequeños de ruido)
-    cleaned_mask = cv2.morphologyEx(cleaned_mask, cv2.MORPH_OPEN, kernel)
-    
-    # La imagen final es la MÁSCARA BINARIA LIMPIA (sin necesidad de umbralización posterior)
-    return cleaned_mask
+    try:
+        if frame is None or frame.size == 0:
+            raise ValueError("La imagen de entrada está vacía o es inválida")
+        
+        # 1. Reducción de ruido preservando bordes
+        denoised = cv2.bilateralFilter(frame, 9, 75, 75)
+        
+        # 2. Mejora de contraste local (CLAHE en el canal L de LAB)
+        lab = cv2.cvtColor(denoised, cv2.COLOR_BGR2LAB)
+        l, a, b = cv2.split(lab)
+        clahe = cv2.createCLAHE(clipLimit=3.0, tileGridSize=(8, 8))
+        cl = clahe.apply(l)
+        enhanced_lab = cv2.merge((cl, a, b))
+        enhanced = cv2.cvtColor(enhanced_lab, cv2.COLOR_LAB2BGR)
+        
+        # 3. Conversión a escala de grises
+        # (Mayor peso al canal verde que suele tener mejor contraste)
+        gray = cv2.cvtColor(enhanced, cv2.COLOR_BGR2GRAY)
+        
+        # 4. Aplicar desenfoque gaussiano para reducir ruido
+        blurred = cv2.GaussianBlur(gray, (5, 5), 0)
+        
+        # 5. Ecualización del histograma adaptativa
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        equalized = clahe.apply(blurred)
+        
+        # 6. Umbralización adaptativa con parámetros optimizados
+        thresh = cv2.adaptiveThreshold(
+            equalized, 255,
+            cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+            cv2.THRESH_BINARY_INV, 31, 7  # Aumentado el tamaño del bloque
+        )
+        
+        # 7. Operaciones morfológicas mejoradas
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (7, 7))
+        
+        # Apertura agresiva para eliminar ruido
+        cleaned = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel, iterations=2)
+        
+        # Cierre para unir regiones cercanas
+        cleaned = cv2.morphologyEx(cleaned, cv2.MORPH_CLOSE, kernel, iterations=3)
+        
+        # Eliminar pequeños objetos de ruido
+        cleaned = cv2.erode(cleaned, None, iterations=1)
+        cleaned = cv2.dilate(cleaned, None, iterations=2)
+        
+        # 8. Rellenar regiones y filtrar por forma
+        contours, _ = cv2.findContours(cleaned, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+        final_mask = np.zeros_like(cleaned)
+        
+        for cnt in contours:
+            area = cv2.contourArea(cnt)
+            # Filtros más estrictos
+            if 1000 < area < 20000:  # Rango de área más específico
+                # Calcular circularidad
+                perimeter = cv2.arcLength(cnt, True)
+                if perimeter > 0:
+                    circularity = 4 * np.pi * area / (perimeter * perimeter)
+                    # Filtrar por circularidad (valores cercanos a 1 son más circulares)
+                    if 0.6 < circularity < 1.4:  # Aceptar formas aproximadamente circulares
+                        # Rellenar el contorno
+                        cv2.drawContours(final_mask, [cnt], -1, 255, -1)
+        
+        # 8. Suavizado final para bordes más limpios
+        final_mask = cv2.medianBlur(final_mask, 3)
+        
+        return final_mask
+        
+    except Exception as e:
+        print(f"Error en preprocesamiento: {str(e)}")
+        if frame is not None and frame.size > 0:
+            return np.zeros((frame.shape[0], frame.shape[1]), dtype=np.uint8)
+        return np.zeros((100, 100), dtype=np.uint8)
